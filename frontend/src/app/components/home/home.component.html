@@ -1,0 +1,40 @@
+<img class="fixed t-0 w-screen h-screen bg-cover bg-center blur-xl -z-30 scale-125" src="https://random.imagecdn.app/800/800">
+
+<br />
+<br />
+<br class="hidden md:block" />
+<br class="hidden lg:block" />
+<br class="hidden xl:block" />
+<br class="hidden 2xl:block" />
+
+<div class="flex justify-center items-center">
+	<div class="w-5/6 rounded-lg p-3 bg-gradient-to-br from-indigo-500/50 via-purple-500/50 to-pink-500/50 md:p-6 lg:p-10">
+		<div class="element text-xl text-white text-center mb-3 md:mb-6 lg:mb-10 md:text-2xl lg:text-4xl"></div>
+		<div class="flex">
+			<div class="relative">
+				<button class="rounded-l-md border border-gray-300 h-full text-white text-sm focus:ring-blue-500 focus:border-blue-500 focus:bg-gray-900/20 p-3 bg-gray-700/20 backdrop-blur-lg transition-all duration-150 font-la font-medium" (click)="selectType()">
+					{{typeText}}
+				</button>
+				<div *ngIf="toggleType" class="absolute bg-gray-900/30 backdrop-blur-lg p-1 text-center rounded-md text-white md:p-1.5 lg:p-2">
+					<!-- photo type -->
+					<div class="flex gap-1 items-center p-1 cursor-pointer rounded-md hover:bg-gray-300/30 md:p-1.5 lg:p-2 font-la" (click)="selectTypeText(textP)">
+						<svg class="h-auto w-4 md:w-5 g:w-6 cursor-pointer" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Media / Image_02"> <path id="Vector" d="M3.00005 18.0001C3 17.9355 3 17.8689 3 17.8002V6.2002C3 5.08009 3 4.51962 3.21799 4.0918C3.40973 3.71547 3.71547 3.40973 4.0918 3.21799C4.51962 3 5.08009 3 6.2002 3H17.8002C18.9203 3 19.4801 3 19.9079 3.21799C20.2842 3.40973 20.5905 3.71547 20.7822 4.0918C21 4.5192 21 5.07899 21 6.19691V17.8031C21 18.2881 21 18.6679 20.9822 18.9774M3.00005 18.0001C3.00082 18.9884 3.01337 19.5058 3.21799 19.9074C3.40973 20.2837 3.71547 20.5905 4.0918 20.7822C4.5192 21 5.07899 21 6.19691 21H17.8036C18.9215 21 19.4805 21 19.9079 20.7822C20.2842 20.5905 20.5905 20.2837 20.7822 19.9074C20.9055 19.6654 20.959 19.3813 20.9822 18.9774M3.00005 18.0001L7.76798 12.4375L7.76939 12.436C8.19227 11.9426 8.40406 11.6955 8.65527 11.6064C8.87594 11.5282 9.11686 11.53 9.33643 11.6113C9.58664 11.704 9.79506 11.9539 10.2119 12.4541L12.8831 15.6595C13.269 16.1226 13.463 16.3554 13.6986 16.4489C13.9065 16.5313 14.1357 16.5406 14.3501 16.4773C14.5942 16.4053 14.8091 16.1904 15.2388 15.7607L15.7358 15.2637C16.1733 14.8262 16.3921 14.6076 16.6397 14.5361C16.8571 14.4734 17.0896 14.4869 17.2988 14.5732C17.537 14.6716 17.7302 14.9124 18.1167 15.3955L20.9822 18.9774M20.9822 18.9774L21 18.9996M15 9C14.4477 9 14 8.55228 14 8C14 7.44772 14.4477 7 15 7C15.5523 7 16 7.44772 16 8C16 8.55228 15.5523 9 15 9Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
+						<input #textP value="Photo" type="button" class="cursor-pointer text-sm md:text-base lg:text-lg" />
+					</div>
+					<hr class="my-1" />
+					<!-- video type -->
+					<div class="flex gap-1 items-center p-1 cursor-pointer rounded-md hover:bg-gray-300/30 md:p-1.5 lg:p-2 font-la" (click)="selectTypeText(textV)">
+						<svg class="h-auto w-4.5 md:w-5 lg:w-6 cursor-pointer" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16 10L18.5768 8.45392C19.3699 7.97803 19.7665 7.74009 20.0928 7.77051C20.3773 7.79703 20.6369 7.944 20.806 8.17433C21 8.43848 21 8.90095 21 9.8259V14.1741C21 15.099 21 15.5615 20.806 15.8257C20.6369 16.056 20.3773 16.203 20.0928 16.2295C19.7665 16.2599 19.3699 16.022 18.5768 15.5461L16 14M6.2 18H12.8C13.9201 18 14.4802 18 14.908 17.782C15.2843 17.5903 15.5903 17.2843 15.782 16.908C16 16.4802 16 15.9201 16 14.8V9.2C16 8.0799 16 7.51984 15.782 7.09202C15.5903 6.71569 15.2843 6.40973 14.908 6.21799C14.4802 6 13.9201 6 12.8 6H6.2C5.0799 6 4.51984 6 4.09202 6.21799C3.71569 6.40973 3.40973 6.71569 3.21799 7.09202C3 7.51984 3 8.07989 3 9.2V14.8C3 15.9201 3 16.4802 3.21799 16.908C3.40973 17.2843 3.71569 17.5903 4.09202 17.782C4.51984 18 5.07989 18 6.2 18Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+						<input #textV value="Video" type="button" class="cursor-pointer text-sm md:text-base lg:text-lg" />
+					</div>
+				</div>
+			</div>
+			
+			<input #query class="border border-gray-300 text-white text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-1 px-2 bg-gray-700/20 backdrop-blur-lg md:p-2 md:text-base lg:p-3 lg:text-lg font-po tracking-wide" placeholder="Search..." (keyup.enter)="search(query)" />
+			
+			<button class="text-white bg-gray-900/30 backdrop-blur-lg focus:ring-2 focus:outline-none focus:ring-blue-300 rounded-r-lg text-sm px-2.5 py-1 text-center md:px-3 lg:px-4 lg:py-1.5" (click)="search(query)">
+				<svg class="h-auto w-5 md:w-6 lg:w-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g clip-path="url(#clip0_15_152)"> <rect width="24" height="24" fill="transparent"></rect> <circle cx="10.5" cy="10.5" r="6.5" stroke="#fff" stroke-linejoin="round"></circle> <path d="M19.6464 20.3536C19.8417 20.5488 20.1583 20.5488 20.3536 20.3536C20.5488 20.1583 20.5488 19.8417 20.3536 19.6464L19.6464 20.3536ZM20.3536 19.6464L15.3536 14.6464L14.6464 15.3536L19.6464 20.3536L20.3536 19.6464Z" fill="#fff"></path> </g> <defs> <clipPath id="clip0_15_152"> <rect width="24" height="24" fill="transparent"></rect> </clipPath> </defs> </g></svg>
+			</button>
+		</div>
+	</div>
+</div>

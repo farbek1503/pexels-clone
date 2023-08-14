@@ -1,0 +1,62 @@
+<div class="fixed t-0 w-screen h-screen bg-cover bg-center blur-lg -z-30 scale-125" [ngStyle]="{ 'background-image': is_photo === true ? 'url(' + dataImg[7].tiny + ')' : 'url(' + videoData.image + ')' }"></div>
+
+<div class="flex justify-center">
+	<div class="max-w-2xl text-white my-0 md:my-1 lg:my-2">
+		<div class="p-2 border-2 text-white rounded-t-none bg-gray-700/40 border-gray-400/[.06] md:p-3 lg:p-5 md:rounded-t-md lg:rounded-t-lg">
+			<h5 class="mb-2 text-sm font-bold tracking-tight md:text-lg xl:text-xl tracking-wide">
+				{{alt}}
+			</h5>
+			<div class="flex justify-between">
+				<div class="mb-1 text-sm font-normal italic md:mb-2 lg:mb-3 md:text-base">
+					Photographer: <a href="{{(is_photo === true) ? photographer_url : videoData.user.url}}" target="_blank" class="not-italic hover:underline font-bold">{{(is_photo === true) ? photographer : videoData.user.name}}</a>
+				</div>
+				
+				<select #select (change)="downloadFunc(select)" class="bg-gray-700/50 border border-gray-100 cursor-pointer text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 p-0.5 lg:text-base md:p-1 lg:p-1.5 lg:rounded-lg font-la">
+					<option>Download 📥</option>
+					<hr />
+					<ng-container *ngIf="is_photo === true">
+						<option *ngFor="let pS of imgSize" value="{{pS.msg}}">
+							{{pS.msg | titlecase}}
+						</option>
+					</ng-container>
+					<ng-container *ngIf="is_photo === false">
+						<option *ngFor="let vS of filterVideo()" value="{{vS.link}}">
+							{{vS.quality | uppercase}} - {{vS.width}} x {{vS.height}}
+						</option>
+					</ng-container>
+				</select>
+			</div>
+		</div>
+		
+		<!-- video -->
+		<video *ngIf="is_photo === false" id="player" class="plyr" style="--plyr-video-background: rgba(255, 255, 255, .1); min-width: 500px;">
+			<source [src]="findLink()" type="video/mp4" />
+		</video>
+		
+		<!-- photo -->
+		<div *ngIf="is_photo === true" id="imgScreen" class="relative flex justify-center">
+			<img class="bg-cover bg-center rounded-b-md transition-all lg:rounded-b-lg" src="{{dataImg[4].original}}" [ngClass]="{'rounded-b-none': screenTrue === false}" [ngStyle]="{'transform': 'rotate(' + rotateDegrees + 'deg)'}" [style.transform]="'scale(' + zoomFactor + ')'"/>
+			
+			<div class="flex gap-1 absolute top-0 right-0 m-1 items-center lg:m-2 lg:gap-2">
+				<div *ngIf="screenTrue === false" class="flex gap-1 lg:gap-2">
+					<!-- zoom in -->
+					<svg class="h-auto w-6 text-white bg-gray-400/40 backdrop-blur-md rounded-full cursor-pointer p-0.5 hover:bg-gray-600/40 md:p-1 md:w-7 lg:w-8" (click)="zoomIn()" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5ZM3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.8487 18.3729 14.551 17.3199 15.9056L20.7071 19.2929C21.0976 19.6834 21.0976 20.3166 20.7071 20.7071C20.3166 21.0976 19.6834 21.0976 19.2929 20.7071L15.9056 17.3199C14.551 18.3729 12.8487 19 11 19C6.58172 19 3 15.4183 3 11ZM11 7C11.5523 7 12 7.44772 12 8V10H14C14.5523 10 15 10.4477 15 11C15 11.5523 14.5523 12 14 12H12V14C12 14.5523 11.5523 15 11 15C10.4477 15 10 14.5523 10 14V12H8C7.44772 12 7 11.5523 7 11C7 10.4477 7.44772 10 8 10H10V8C10 7.44772 10.4477 7 11 7Z" fill="#ffffff"></path> </g></svg>
+					<!-- zoom out -->
+					<svg class="h-auto w-6 text-white bg-gray-400/40 backdrop-blur-md rounded-full cursor-pointer p-0.5 hover:bg-gray-600/40 md:p-1 md:w-7 lg:w-8" (click)="zoomOut()" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5ZM3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.8487 18.3729 14.551 17.3199 15.9056L20.7071 19.2929C21.0976 19.6834 21.0976 20.3166 20.7071 20.7071C20.3166 21.0976 19.6834 21.0976 19.2929 20.7071L15.9056 17.3199C14.551 18.3729 12.8487 19 11 19C6.58172 19 3 15.4183 3 11ZM7 11C7 10.4477 7.44772 10 8 10H14C14.5523 10 15 10.4477 15 11C15 11.5523 14.5523 12 14 12H8C7.44772 12 7 11.5523 7 11Z" fill="#ffffff"></path> </g></svg>
+					<!-- rotate left -->
+					<svg class="h-auto w-6 text-white bg-gray-400/40 backdrop-blur-md rounded-full cursor-pointer p-0.5 hover:bg-gray-600/40 md:p-1 md:w-7 lg:w-8" (click)="rotateLeft()" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M6.23706 2.0007C6.78897 2.02117 7.21978 2.48517 7.19931 3.03708L7.10148 5.67483C8.45455 4.62548 10.154 4.00001 12 4.00001C16.4183 4.00001 20 7.58174 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12C4 11.4477 4.44772 11 5 11C5.55228 11 6 11.4477 6 12C6 15.3137 8.68629 18 12 18C15.3137 18 18 15.3137 18 12C18 8.68631 15.3137 6.00001 12 6.00001C10.4206 6.00001 8.98317 6.60994 7.91098 7.60891L11.3161 8.00677C11.8646 8.07087 12.2573 8.56751 12.1932 9.11607C12.1291 9.66462 11.6325 10.0574 11.0839 9.99326L5.88395 9.38567C5.36588 9.32514 4.98136 8.87659 5.00069 8.35536L5.20069 2.96295C5.22116 2.41104 5.68516 1.98023 6.23706 2.0007Z" fill="#ffffff"></path> </g></svg>
+					<!-- rotate right -->
+					<svg class="h-auto w-6 text-white bg-gray-400/40 backdrop-blur-md rounded-full cursor-pointer p-0.5 hover:bg-gray-600/40 md:p-1 md:w-7 lg:w-8" (click)="rotateRight()" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M17.7629 2.0007C17.211 2.02117 16.7802 2.48517 16.8007 3.03708L16.8985 5.67483C15.5455 4.62548 13.846 4.00001 12 4.00001C7.58172 4.00001 4 7.58174 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12C18 15.3137 15.3137 18 12 18C8.68629 18 6 15.3137 6 12C6 8.68631 8.68629 6.00001 12 6.00001C13.5794 6.00001 15.0168 6.60994 16.089 7.60891L12.6839 8.00677C12.1354 8.07087 11.7427 8.56751 11.8068 9.11607C11.8709 9.66462 12.3675 10.0574 12.9161 9.99326L18.1161 9.38567C18.6341 9.32514 19.0186 8.87659 18.9993 8.35536L18.7993 2.96295C18.7788 2.41104 18.3148 1.98023 17.7629 2.0007Z" fill="#ffffff"></path> </g></svg>
+				</div>
+				<!-- toggle full screen -->
+				<div class="cursor-pointer p-0.5 bg-gray-400/40 backdrop-blur-md rounded-full hover:bg-gray-600/40 md:p-1" (click)="toggleFullScreen()">
+					<svg *ngIf="screenTrue" class="h-auto w-5 lg:w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M3.46447 3.46447C2 4.92893 2 7.28595 2 12C2 16.714 2 19.0711 3.46447 20.5355C4.92893 22 7.28595 22 12 22C16.714 22 19.0711 22 20.5355 20.5355C22 19.0711 22 16.714 22 12C22 7.28595 22 4.92893 20.5355 3.46447C19.0711 2 16.714 2 12 2C7.28595 2 4.92893 2 3.46447 3.46447ZM10.7474 5.99364C10.7509 6.40784 10.4179 6.74646 10.0038 6.74997C9.14788 6.75723 8.55011 6.7855 8.10037 6.8736C7.67158 6.95759 7.43423 7.08568 7.25996 7.25996C7.08568 7.43423 6.95759 7.67158 6.8736 8.10037C6.7855 8.55011 6.75723 9.14788 6.74997 10.0038C6.74646 10.4179 6.40784 10.7509 5.99364 10.7474C5.57944 10.7439 5.24652 10.4052 5.25003 9.99103C5.25724 9.14035 5.28357 8.41444 5.40157 7.81203C5.52367 7.18869 5.75316 6.64543 6.1993 6.1993C6.64543 5.75316 7.18869 5.52367 7.81203 5.40157C8.41444 5.28357 9.14035 5.25724 9.99103 5.25003C10.4052 5.24652 10.7439 5.57944 10.7474 5.99364ZM13.2502 5.99364C13.2537 5.57944 13.5923 5.24652 14.0065 5.25003C14.8572 5.25724 15.5831 5.28357 16.1855 5.40157C16.8089 5.52367 17.3521 5.75316 17.7983 6.1993C18.2444 6.64543 18.4739 7.18869 18.596 7.81203C18.714 8.41444 18.7403 9.14035 18.7475 9.99103C18.751 10.4052 18.4181 10.7439 18.0039 10.7474C17.5897 10.7509 17.2511 10.4179 17.2476 10.0038C17.2403 9.14788 17.2121 8.55011 17.124 8.10037C17.04 7.67158 16.9119 7.43423 16.7376 7.25996C16.5633 7.08568 16.326 6.95759 15.8972 6.8736C15.4475 6.7855 14.8497 6.75723 13.9938 6.74997C13.5796 6.74646 13.2467 6.40784 13.2502 5.99364ZM6.74997 13.9943C6.74646 13.5801 6.40784 13.2472 5.99364 13.2507C5.57944 13.2542 5.24652 13.5928 5.25003 14.007C5.25724 14.8577 5.28357 15.5836 5.40157 16.186C5.52367 16.8094 5.75316 17.3526 6.1993 17.7988C6.64543 18.2449 7.18869 18.4744 7.81203 18.5965C8.41444 18.7145 9.14035 18.7408 9.99103 18.748C10.4052 18.7515 10.7439 18.4186 10.7474 18.0044C10.7509 17.5902 10.4179 17.2516 10.0038 17.2481C9.14788 17.2408 8.55011 17.2125 8.10037 17.1245C7.67158 17.0405 7.43423 16.9124 7.25996 16.7381C7.08568 16.5638 6.95759 16.3265 6.8736 15.8977C6.7855 15.4479 6.75723 14.8502 6.74997 13.9943ZM18.0039 13.2507C18.4181 13.2542 18.751 13.5928 18.7475 14.007C18.7403 14.8577 18.714 15.5836 18.596 16.186C18.4739 16.8094 18.2444 17.3526 17.7983 17.7988C17.3521 18.2449 16.8089 18.4744 16.1855 18.5965C15.5831 18.7145 14.8572 18.7408 14.0065 18.748C13.5923 18.7515 13.2537 18.4186 13.2502 18.0044C13.2467 17.5902 13.5796 17.2516 13.9938 17.2481C14.8497 17.2408 15.4475 17.2125 15.8972 17.1245C16.326 17.0405 16.5633 16.9124 16.7376 16.7381C16.9119 16.5638 17.04 16.3265 17.124 15.8977C17.2121 15.4479 17.2403 14.8502 17.2476 13.9943C17.2511 13.5801 17.5897 13.2472 18.0039 13.2507Z" fill="#1C274C"></path> </g></svg>
+					
+					<svg *ngIf="screenFalse" class="h-auto w-5 lg:w-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M16 8h6v1h-7V2h1zM2 16h6v6h1v-7H2zm13 6h1v-6h6v-1h-7zM8 8H2v1h7V2H8z"></path><path fill="none" d="M0 0h24v24H0z"></path></g></svg>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<br />
