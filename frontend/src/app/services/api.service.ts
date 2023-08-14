@@ -8,7 +8,7 @@ export class ApiService {
 	
   constructor(private http: HttpClient) { }
 	
-	baseUrl:string = 'http://localhost:3000'
+	baseUrl:string = 'https://pexels-clone-server.vercel.app'
 	
 	getData(type:string, page:number, limit:number, query:string, orientation:string){
 		return this.http.get(`${this.baseUrl}/getData/${type}/${page}/${limit}/${query}/${orientation}`)
