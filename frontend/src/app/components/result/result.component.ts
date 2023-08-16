@@ -45,6 +45,8 @@ export class ResultComponent implements OnInit {
 					this.is_photo = true
 					if(this.photosData.length === 0){
 						this.notPhoto = true
+					} else {
+						this.notPhoto = false
 					}
 				}
 				if(res.data.videos){
@@ -52,6 +54,8 @@ export class ResultComponent implements OnInit {
 					this.is_photo = false
 					if(this.videosData.length === 0){
 						this.notVideo = true
+					} else {
+						this.notVideo= false
 					}
 					this.plyrs.changes.subscribe(() => {
 						this.plyrs.forEach((plyr:any) => {
