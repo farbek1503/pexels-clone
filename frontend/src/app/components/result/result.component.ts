@@ -45,7 +45,7 @@ export class ResultComponent implements OnInit {
 					this.is_photo = true
 					if(this.photosData.length === 0){
 						this.notPhoto = true
-					} else {
+						} else {
 						this.notPhoto = false
 					}
 				}
@@ -54,7 +54,7 @@ export class ResultComponent implements OnInit {
 					this.is_photo = false
 					if(this.videosData.length === 0){
 						this.notVideo = true
-					} else {
+						} else {
 						this.notVideo= false
 					}
 					this.plyrs.changes.subscribe(() => {
@@ -86,8 +86,6 @@ export class ResultComponent implements OnInit {
 				{queryParams: {type: this.qType, page: this.qPage, limit: this.qLimit, query: this.qQuery, orientation: this.qOrientation}}
 			)
 			this.getData()
-			}else {
-			alert('Min Page')
 		}
 	}
 	
@@ -110,8 +108,8 @@ export class ResultComponent implements OnInit {
 	
 	infoVideo(id:any){
 		this.route.navigate(
-			['/info'],
-			{queryParams: {type: 'video', id}}
+		['/info'],
+		{queryParams: {type: 'video', id}}
 		)
 	}
 	
@@ -128,7 +126,7 @@ export class ResultComponent implements OnInit {
 	changePage(page:any){
 		this.route.navigate(
 			['/result'],
-			{queryParams: {type: this.qType, page: this.qPage, limit: this.qLimit, query: this.qQuery, orientation: this.qOrientation}}
+			{queryParams: {type: this.qType, page: page.value, limit: this.qLimit, query: this.qQuery, orientation: this.qOrientation}}
 		)
 		this.getData()
 	}
